@@ -200,7 +200,7 @@ function App() {
 
         </CardContainer>
       </section>
-      <section className="w-full max-w-4xl mx-auto mb-10 mt-10">
+      <section className="w-full max-w-4xl mx-auto mb-8">
         <h2 className="text-xl md:text-4xl font-semibold mb-4 text-center">Frequently Asked Questions</h2>
         <div className="space-y-8">
           <FAQCard
