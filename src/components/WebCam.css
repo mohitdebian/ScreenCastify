@@ -1,0 +1,29 @@
+/* src/WebCam.css */
+.webcam-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed; /* Use fixed positioning to keep it fixed in the viewport */
+  bottom: 2%; /* Distance from the bottom */
+  right: 2%; /* Distance from the right */
+  z-index: 9999; /* Ensure it appears on top of other elements */
+}
+
+.webcam-circle {
+  border-radius: 25%; /* Adjust this to make the shape square with rounded corners */
+  overflow: hidden; /* Clips the webcam feed to fit within the shape */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0; /* Optional: Background color */
+  position: relative; /* Use relative positioning for the circle itself */
+  width: 120px; /* Set a fixed size for the shape */
+  height: 80px; /* Set a fixed size for the shape */
+}
+
+.webcam-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the webcam video fits within the shape */
+}

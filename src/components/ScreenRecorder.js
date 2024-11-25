@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import WebCam from "./WebCam";
 
 const ScreenRecorder = () => {
+  const [isWebCamEnabled, setIsWebCamEnabled] = useState(false);
   const [recording, setRecording] = useState(false);
   const [stream, setStream] = useState(null);
   const [frameRate, setFrameRate] = useState(60);
@@ -135,29 +137,52 @@ const ScreenRecorder = () => {
           </select>
         </div>
         <div className='flex items-center justify-center h-full'>
-  <StyledToggleWrapper className='flex items-center justify-center' style={{margin: '0'}}>
-    <span className="text-white" style={{ marginRight: '10px', marginLeft: '10px' }}>Microphone</span>
-    <label className="toggle" style={{ marginRight: '10px', marginLeft: '10px' }}>
-      <input
-        type="checkbox"
-        checked={isMicEnabled}
-        onChange={() => setIsMicEnabled(!isMicEnabled)}
-        className="hidden" // Hide the default checkbox
-      />
-      <span className="slider" />
-    </label>
-  </StyledToggleWrapper>
-</div>
-
-
+          <StyledToggleWrapper className='flex items-center justify-center' style={{ margin: '0' }}>
+            <span className="text-white" style={{ marginRight: '10px', marginLeft: '10px' }}>Microphone</span>
+            <label className="toggle" style={{ marginRight: '10px', marginLeft: '10px' }}>
+              <input
+                type="checkbox"
+                checked={isMicEnabled}
+                onChange={() => setIsMicEnabled(!isMicEnabled)}
+                className="hidden" // Hide the default checkbox
+              />
+              <span className="slider" />
+            </label>
+          </StyledToggleWrapper>
+        </div>
       </div>
 
-      <button
-        className={`w-full py-2 rounded-md text-white ${recording ? 'bg-red-500' : 'bg-blue-500'}`}
-        onClick={recording ? stopRecording : startRecording}
-      >
-        {recording ? 'Stop Recording' : 'Start Recording'}
-      </button>
+      <div className='flex h-full'>
+        <StyledToggleWrapper className='flex  ' style={{ margin: '0' }}>
+          <span className="text-white" style={{ marginRight: '10px', marginLeft: '10px' }}>Webcam</span>
+          <label className="toggle" style={{ marginRight: '10px', marginLeft: '10px' }}>
+            <input
+              type="checkbox"
+              checked={isWebCamEnabled}
+              onChange={() => setIsWebCamEnabled(!isWebCamEnabled)}
+              className="hidden" // Hide the default checkbox
+            />
+            <span className="slider" />
+          </label>
+        </StyledToggleWrapper>
+      </div>
+
+      {isWebCamEnabled && (
+        <>
+          <label className='text-white-700' h-0></label>
+          <WebCam />
+        </>
+      )}
+
+      <div className="mt-12"> {/* Add a margin-top to create space above the button */}
+        <button
+          className={`w-full py-2 rounded-md text-white ${recording ? 'bg-red-500' : 'bg-blue-500'}`}
+          onClick={recording ? stopRecording : startRecording}
+        >
+          {recording ? 'Stop Recording' : 'Start Recording'}
+        </button>
+      </div>
+
       {videoUrl && (
         <button
           className="w-full py-2 mt-4 rounded-md text-white bg-green-500"
