@@ -136,6 +136,7 @@ const CardContainer = styled.div`
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isIframeOpen, setIsIframeOpen] = useState(false);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -147,6 +148,14 @@ function App() {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const openIframe = () => {
+    setIsIframeOpen(true);
+  };
+
+  const closeIframe = () => {
+    setIsIframeOpen(false);
   };
 
   return (
@@ -181,10 +190,14 @@ function App() {
 
         <h1 className="text-4xl md:text-6xl font-bold mb-4">Record Your Screen Like a Pro – No Sweat!</h1>
         <p className="text-md md:text-2xl text-gray-400 mb-6">Say goodbye to downloads and hello to hassle-free recording!</p>
+        <div className="flex flex-row space-x-4 items-center justify-center">
         <StyledButton onClick={openModal}>
           Try ScreenCastify for free
         </StyledButton>
-        {/* <p className="text-md text-gray-400 mt-2">made by Mohit Singh ❣️</p> Added text below the button */}
+        <StyledButton onClick={openIframe}>
+          How to use ?
+        </StyledButton>
+        </div>
       </main>
       <section className="w-full max-w-4xl mx-auto mb-8 mt-20 md:mt-0">
         <CardContainer className="space-y-12 md:space-y-0"> {/* Added responsive spacing */}
@@ -224,6 +237,19 @@ function App() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <ScreenRecorder />
       </Modal>
+      {isIframeOpen && (
+        <Modal isOpen={isIframeOpen} onClose={closeIframe} className="iframe-modal">
+          <iframe
+            title="ScreenCastify Tutorial" // Added a unique title for accessibility
+            src="https://story.screenspace.io/mohit-webtech/e_ea4e7400"
+            width="100%"
+            height="100%"
+            scrolling="no"
+            allow="autoplay; fullscreen; clipboard-write"
+            style={{ minHeight: '400px', border: 'none', background: 'transparent' }}
+          ></iframe>
+        </Modal>
+      )}
       <footer className="w-full max-w-4xl mx-auto text-gray-400 flex flex-col items-center py-4">
         <div className="flex space-x-4">
           <a href="mailto:devbyte.mohit@gmail.com" className="hover:text-white">Help</a>
