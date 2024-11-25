@@ -1,10 +1,13 @@
 // src/App.js
-import React, { useState } from 'react';
-import Modal from './components/modal';
+// src/App.js
+import React, { useState, useEffect } from 'react';
+import Modal from './components/modals/Modal'; // Import the existing modal
+import PopupModal from './components/modals/PopupModal'; // Import the new popup modal
 import ScreenRecorder from './components/ScreenRecorder';
 import styled from 'styled-components';
 import Card from './components/Card'; // Ensure this path is correct
 import StyledButton from './components/StyledButton'; // Import the new StyledButton component
+import PopupCard from './components/PopupCard';
 
 const StyledWrapper = styled.div`
   .notification {
@@ -137,6 +140,16 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isIframeOpen, setIsIframeOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(true); // Front page poup of review and follow me on twitter
+
+  useEffect(() => {
+    // Automatically open the popup when the component mounts
+    setIsPopupOpen(true);
+  }, []);
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -160,6 +173,10 @@ function App() {
 
   return (
     <div className="App min-h-screen bg-[#212121] text-white flex flex-col items-center justify-center p-4">
+      {/* Popup Modal */}
+      <PopupModal isOpen={isPopupOpen} onClose={closePopup}>
+      <PopupCard />
+    </PopupModal>
       <header className="w-full p-4 flex justify-between items-center" style={{ marginBottom: '5%' }}>
         <div className="text-2xl font-bold">ScreenCastify</div>
         <nav className="hidden md:flex space-x-4">

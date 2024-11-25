@@ -97,7 +97,7 @@ const ScreenRecorder = () => {
   return (
     <div className="p-4 bg-black rounded-lg shadow-lg">
       {!stream && !videoUrl ? (
-        <img src="/preview.jpg" alt="Screen preview" className="rounded-lg mb-4" />
+        <video src="/Final.mp4" autoPlay alt="Screen preview" className="rounded-lg mb-4" />
       ) : (
         <video
           ref={videoRef}
