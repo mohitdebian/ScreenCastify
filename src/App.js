@@ -176,7 +176,7 @@ function App() {
         </button>
       </header>
       {isMenuOpen && (
-        <div className="border border-white p-2 flex justify-center" style={{marginBottom: '5%'}}> {/* Added a div with border and padding */}
+        <div className="border border-white p-2 flex justify-center" style={{ marginBottom: '5%' }}> {/* Added a div with border and padding */}
           <nav className="md:hidden flex flex-row space-x-4">
             <a href="https://x.com/mohitdebian" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-300" style={{ fontSize: '1.2rem' }}>Twitter</a>
             <span className="text-white">|</span> {/* Separator */}
@@ -190,13 +190,15 @@ function App() {
 
         <h1 className="text-4xl md:text-6xl font-bold mb-4">Record Your Screen Like a Pro – No Sweat!</h1>
         <p className="text-md md:text-2xl text-gray-400 mb-6">Say goodbye to downloads and hello to hassle-free recording!</p>
-        <div className="flex flex-row space-x-4 items-center justify-center">
-        <StyledButton onClick={openModal}>
-          Try ScreenCastify for free
-        </StyledButton>
-        <StyledButton onClick={openIframe}>
-          How to use ?
-        </StyledButton>
+        <div className="flex flex-col md:flex-row space-x-4 items-center justify-center">
+          <div className='mb-2 md:mb-0'>
+          <StyledButton onClick={openModal}>
+            Try ScreenCastify for free
+          </StyledButton>
+          </div>
+          <StyledButton onClick={openIframe}>
+            How to use ?
+          </StyledButton>
         </div>
       </main>
       <section className="w-full max-w-4xl mx-auto mb-8 mt-20 md:mt-0">
