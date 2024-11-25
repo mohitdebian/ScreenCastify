@@ -1,6 +1,7 @@
 // src/App.js
 // src/App.js
 import React, { useState, useEffect } from 'react';
+import { Analytics } from "@vercel/analytics/react"; // Import the Analytics component
 import Modal from './components/modals/Modal'; // Import the existing modal
 import PopupModal from './components/modals/PopupModal'; // Import the new popup modal
 import ScreenRecorder from './components/ScreenRecorder';
@@ -281,6 +282,7 @@ function App() {
           Download
         </button> */}
       </footer>
+      <Analytics />
     </div>
   );
 }
