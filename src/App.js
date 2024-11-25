@@ -186,7 +186,7 @@ function App() {
           </nav>
         </div>
       )}
-      <main className="w-full max-w-4xl mx-auto text-center mb-12 md:mb-10">
+      <main className="w-full max-w-4xl mx-auto text-center mb-0 md:mb-10">
 
         <h1 className="text-4xl md:text-6xl font-bold mb-4">Record Your Screen Like a Pro – No Sweat!</h1>
         <p className="text-md md:text-2xl text-gray-400 mb-6">Say goodbye to downloads and hello to hassle-free recording!</p>
