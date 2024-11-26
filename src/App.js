@@ -261,7 +261,7 @@ function App() {
         <Modal isOpen={isIframeOpen} onClose={closeIframe} className="iframe-modal">
           <iframe
             title="ScreenCastify Tutorial" // Added a unique title for accessibility
-            src="https://story.screenspace.io/mohit-webtech/e_ea4e7400"
+            src="https://story.screenspace.io/screencastify-4991/e_7bfc7416s"
             width="100%"
             height="100%"
             scrolling="no"
