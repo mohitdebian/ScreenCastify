@@ -152,6 +152,15 @@ function App() {
     setIsPopupOpen(false);
   };
 
+  useEffect(() => {
+    // Disable scrolling when the popup is open
+    if (isPopupOpen) {
+      document.body.style.overflow = 'hidden'; // Disable scrolling
+    } else {
+      document.body.style.overflow = 'auto'; // Enable scrolling
+    }
+  }, [isPopupOpen]);
+
   const openModal = () => {
     setIsModalOpen(true);
   };

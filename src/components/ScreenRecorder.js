@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import WebCam from "./WebCam";
+// import WebCam from "./WebCam"; //webcam code start here
+import { createClient } from '@supabase/supabase-js';
 
 const ScreenRecorder = () => {
-  const [isWebCamEnabled, setIsWebCamEnabled] = useState(false);
+
+  // const [isWebCamEnabled, setIsWebCamEnabled] = useState(false);  // webcam code starts here
   const [recording, setRecording] = useState(false);
   const [stream, setStream] = useState(null);
   const [frameRate, setFrameRate] = useState(60);
@@ -13,6 +15,44 @@ const ScreenRecorder = () => {
   const mediaRecorderRef = useRef(null);
   const recordedChunksRef = useRef([]);
   const videoRef = useRef(null);
+  const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+  const supabaseKey = process.env.REACT_APP_SUPABASE_KEY;
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  // Feedback modal state
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
+  const [feedback, setFeedback] = useState('');
+
+  const submitFeedback = async () => {
+    if (feedback.trim() === '') {
+      alert('Please enter your feedback before submitting.');
+      return;
+    }
+
+    // Save feedback to Supabase
+    try {
+      const { data, error } = await supabase
+        .from('feedback') // Specify the table name
+        .insert([{ feedback_text: feedback }]); // Insert the feedback
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      console.log('Feedback submitted:', data);
+      alert('Thank you for your feedback!');
+
+      // Trigger video download after submitting feedback
+      downloadVideo();
+      setFeedback('');
+      setIsFeedbackModalOpen(false);
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      alert('An error occurred while submitting your feedback.');
+    }
+  };
+
 
   const resolutionOptions = {
     '4k': { width: 3840, height: 2160 },
@@ -84,6 +124,9 @@ const ScreenRecorder = () => {
     if (stream) stream.getTracks().forEach((track) => track.stop());
     setRecording(false);
     setStream(null);
+
+    // Open feedback modal after stopping the recording
+    setIsFeedbackModalOpen(true);
   };
 
   const downloadVideo = () => {
@@ -152,7 +195,9 @@ const ScreenRecorder = () => {
         </div>
       </div>
 
-      <div className='flex h-full'>
+
+   {/*webcam code starts here*}
+      {/* <div className='flex h-full'>
         <StyledToggleWrapper className='flex  ' style={{ margin: '0' }}>
           <span className="text-white" style={{ marginRight: '10px', marginLeft: '10px' }}>Webcam</span>
           <label className="toggle" style={{ marginRight: '10px', marginLeft: '10px' }}>
@@ -165,14 +210,14 @@ const ScreenRecorder = () => {
             <span className="slider" />
           </label>
         </StyledToggleWrapper>
-      </div>
+      </div> */}
 
-      {isWebCamEnabled && (
+      {/* {isWebCamEnabled && (
         <>
           <label className='text-white-700' h-0></label>
           <WebCam />
         </>
-      )}
+      )} */}
 
       <div className="mt-12"> {/* Add a margin-top to create space above the button */}
         <button
@@ -191,59 +236,84 @@ const ScreenRecorder = () => {
           Download Video
         </button>
       )}
+
+      {isFeedbackModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="p-6 rounded-md w-96" style={{backgroundColor: 'rgb(33, 33, 33)'}}> {/* Change bg-white to bg-blue-500 */}
+            <h2 className="text-xl font-bold mb-4">Submit your feedback to download the video</h2>
+            <textarea
+              value={feedback}
+              style={{backgroundColor: 'white', color: 'black'}}
+              onChange={(e) => setFeedback(e.target.value)}
+              placeholder="Did you find ScreenCastify helpful in your productivity?"
+              className="w-full h-24 p-2 border rounded-md mb-4"
+            />
+            <div className="flex justify-end space-x-2">
+              
+              <button
+                className="py-2 px-4 bg-blue-500 text-white rounded-md"
+                onClick={submitFeedback}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
 
 const StyledToggleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
 
-  .toggle {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
+      .toggle {
+        position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
   }
 
-  .toggle input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+      .toggle input {
+        opacity: 0;
+      width: 0;
+      height: 0;
   }
 
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 34px;
+      .slider {
+        position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
   }
 
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
+      .slider:before {
+        position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
   }
 
-  input:checked + .slider {
-    background-color: #4caf50; // Change to your desired color
+      input:checked + .slider {
+        background-color: #4caf50; // Change to your desired color
   }
 
-  input:checked + .slider:before {
-    transform: translateX(26px);
+      input:checked + .slider:before {
+        transform: translateX(26px);
   }
-`;
+      `;
 
 export default ScreenRecorder;
