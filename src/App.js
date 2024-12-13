@@ -1,5 +1,4 @@
 // src/App.js
-// src/App.js
 import React, { useState, useEffect } from 'react';
 import { Analytics } from "@vercel/analytics/react"; // Import the Analytics component
 import Modal from './components/modals/Modal'; // Import the existing modal
@@ -161,8 +160,22 @@ function App() {
     }
   }, [isPopupOpen]);
 
+  const requestMicrophonePermission = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Stop the stream immediately after getting permission
+      stream.getTracks().forEach(track => track.stop());
+      // After getting permission, open the modal
+      setIsModalOpen(true);
+    } catch (err) {
+      console.error('Error accessing microphone:', err);
+      // Open modal even if permission is denied
+      setIsModalOpen(true);
+    }
+  };
+
   const openModal = () => {
-    setIsModalOpen(true);
+    requestMicrophonePermission();
   };
 
   const closeModal = () => {

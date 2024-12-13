@@ -23,6 +23,7 @@ const ScreenRecorder = () => {
   // Feedback modal state
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [feedback, setFeedback] = useState('');
+  const [email, setEmail] = useState('');
 
   const submitFeedback = async () => {
     if (feedback.trim() === '') {
@@ -30,11 +31,19 @@ const ScreenRecorder = () => {
       return;
     }
 
+    if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
     // Save feedback to Supabase
     try {
       const { data, error } = await supabase
         .from('feedback') // Specify the table name
-        .insert([{ feedback_text: feedback }]); // Insert the feedback
+        .insert([{ 
+          feedback_text: feedback,
+          email: email 
+        }]);
 
       if (error) {
         throw new Error(error.message);
@@ -46,6 +55,7 @@ const ScreenRecorder = () => {
       // Trigger video download after submitting feedback
       downloadVideo();
       setFeedback('');
+      setEmail('');
       setIsFeedbackModalOpen(false);
     } catch (error) {
       console.error('Error submitting feedback:', error);
@@ -213,10 +223,10 @@ const ScreenRecorder = () => {
       </div> */}
 
       {/* {isWebCamEnabled && (
-        <>
+        < >
           <label className='text-white-700' h-0></label>
           <WebCam />
-        </>
+        </ >
       )} */}
 
       <div className="mt-12"> {/* Add a margin-top to create space above the button */}
@@ -240,7 +250,15 @@ const ScreenRecorder = () => {
       {isFeedbackModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="p-6 rounded-md w-96" style={{backgroundColor: 'rgb(33, 33, 33)'}}> {/* Change bg-white to bg-blue-500 */}
-            <h2 className="text-xl font-bold mb-4">Submit your feedback to download the video</h2>
+            <h2 className="text-xl font-bold mb-4 text-white">Submit your feedback to download the video</h2>
+            <input
+              type="email"
+              value={email}
+              style={{backgroundColor: 'white', color: 'black'}}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email id"
+              className="w-full p-2 border rounded-md mb-4"
+            />
             <textarea
               value={feedback}
               style={{backgroundColor: 'white', color: 'black'}}
