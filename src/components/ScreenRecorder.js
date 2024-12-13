@@ -9,7 +9,7 @@ const ScreenRecorder = () => {
   const [recording, setRecording] = useState(false);
   const [stream, setStream] = useState(null);
   const [frameRate, setFrameRate] = useState(60);
-  const [resolution, setResolution] = useState('1080p');
+  const [resolution, setResolution] = useState('4k');
   const [videoUrl, setVideoUrl] = useState(null);
   const [isMicEnabled, setIsMicEnabled] = useState(true);
   const mediaRecorderRef = useRef(null);
